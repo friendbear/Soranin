@@ -38,5 +38,11 @@ object Example2 extends App{
   def pi: () => Double = {
     () => 3.14d
   }
+
   // クロージャ
+  def cloger(max: Int) = (default: Int) => max + default
+  val cl = cloger(10)
+  println(cl(2))
+
+
 }
