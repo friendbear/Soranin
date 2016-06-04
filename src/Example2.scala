@@ -1,3 +1,6 @@
+import scala.annotation.tailrec
+import scala.util.control.TailCalls.TailRec
+
 /**
   * 関数
   * Created by kumagai on 2016/06/01.
@@ -90,4 +93,23 @@ object Example2 extends App{
   //メソッドをカリー化
   //val curryDef = (greetDef _).curried // TODO: curried がみつからない
 
+  /**
+    * 再帰処理
+    */
+  val listInt = List(1,2,3,4,5,6,7,8,9,0) // TODO:rangeで代用できないか？
+
+  @tailrec
+  def sum(total: Int, list: List[Int]): Int = {
+    if (list.isEmpty) total
+    else sum(total + list.head, list.tail)
+  }
+  println("sum = %d".format(sum(0, listInt)))
+
+  import scala.util.control.TailCalls._
+  // トランポリン
+  def minus(total: Int, list: List[Int]): TailRec[Int] = {
+    if (list.isEmpty) done(total)
+    else tailcall(minus(total - list.head, list.tail))
+  }
+  println("minus = %d".format(minus(45, listInt).result))
 }
