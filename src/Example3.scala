@@ -1,3 +1,4 @@
+import java.util.Calendar;
 /**
   * オブジェクト指向
   * Created by kumagai on 2016/06/04.
@@ -28,6 +29,45 @@ object Example3 extends App {
   /**
     * メソッド
     */
+  // デフォルト値の設定
+  def price(total: Int, discount: Int = 500) = total - discount
+  def priceDay(total: Int, discount: Int =
+              if (Calendar.getInstance.get(Calendar.DATE) % 2 == 0) 500 else 100) = {
+    total - discount
+  }
+  println(priceDay(5000, 1))
+  println(priceDay(5000, 2))
+  println(priceDay(5000))
+
+  // 暗黙の引数について(implicit parameter)
+  val vat = new VAT
+  vat.calc
+
+  // オブジェクトが暗黙の値
+  implicit object VAT extends Tax1 {
+    def rate = 50
+  }
+
+  val c = new Calculation
+  println(c.tax)
+
+  // 複数のコンストラクタ（補助コンストラクタ）
+  val w1 = new World(5, 5, 5)
+  val w2 = new World(5)
+  println("1 Instance World get %d, %d, %d".format(w1.x, w1.y, w1.z))
+  // w2.z_ = 1 : TODO: Setter がvarで定義したパラメータで渡せない w2.y_=
+  w2.z = 1
+  println("2 Instance World get %d, %d, %d".format(w2.x, w2.y, w2.z))
+
+  // シールドクラス、caseクラス
+  def message(m: SuperClass) = {
+    m match {
+      case ByteMessage() => println(ByteMessage.getClass())
+      case ObjectMessage() => println(ObjectMessage.getClass())
+      case TextMessage() => println(TextMessage.getClass())
+    }
+  }
+  println(message(new ObjectMessage()))
 }
 
 // アウタークラス
@@ -61,4 +101,61 @@ class HelloWorld {
 
   // 可変長引数
   def args(values: String*) = for (s <- values) println(s)
+}
+
+class Tax {
+  // 引数rateが暗黙の引数
+  def tax(implicit rate: Int) = rate * 0.01
+}
+class VAT {
+  // 暗黙の引数に実際に渡す値
+  implicit val vat = 5
+
+  def calc = {
+    val tax = new Tax
+    println(tax.tax)    // 引数が同じスコープの中から型に応じて実際に渡す値が検索される
+    println(tax.tax(10)) // 引数を指定した場合
+  }
+}
+
+trait Tax1 {
+  def rate: Int
+}
+class Calculation {
+  // 暗黙の引数
+  def tax(implicit tax: Tax1) = tax.rate * 0.01
+}
+
+class World(val x: Int, var y: Int, var z: Int) {
+  println(x + y + z) // 基本コンストラクタ
+
+  def this(z2: Int) = {
+    this(0, 0, z2) // 基本コンストラクタを呼び出す
+    println("補助コンストラクタ %d".format(x + y + z))
+  }
+}
+
+final class finalClass  // 継承できないクラス
+
+/**
+  * クラスの派生
+  * @param i
+  */
+sealed class SuperClass(val i: Int)  // シールドクラス
+case class TextMessage() extends SuperClass(0)
+case class ObjectMessage() extends SuperClass(0)
+case class ByteMessage() extends SuperClass(0)
+
+class SubClass(i: Int, val h: Int, name: String) extends SuperClass(i) {
+  def this(name: String) = this(1, 5, name)
+}
+
+abstract class AbstractClass {
+
+  // 抽象フィールド
+  val value: String
+
+  // 抽象メソッド
+  def hello(arg: String): String
+  //def hello(arg: String) 戻り値を指定しない場合はUnitになる
 }
