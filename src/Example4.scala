@@ -31,6 +31,39 @@ object Example4 extends App {
 
   // 084 コンパニオンオブジェクト シングルトンを定義
   val dBAccess084 = DBAccess084("jdbc://", "root", "test")
+
+  // 085 抽出子 インスタンスが持つ情報を抽出する場合
+  val book = Book("Scalaレシピ", "クマガイ", "翔泳社", 3990) // applyでインスタンス化
+  val Book(title, author, publisher, price) = book // 抽出しで取り出す
+  println("%s, %s, %s, %d".format(title, author, publisher, price))
+
+  // 086 ケースクラス 幾つかのメソッドやコンパニオンオブジェクトを自動生成するクラス
+  val msg = Message086(1, "payload")
+  val Message086(id, payload) = msg // unapplyで取り出す
+  if (msg.canEqual(isInstanceOf[Message086])) println("ケースクラス.canEqual 型が一致") else println("ケースクラス.canEqual 型が不一致")
+  val copyMsg = msg.copy(id = msg.id, payload = msg.payload)
+  if (msg.equals(copyMsg)) println("ケースクラス.equals インスタンスが一致") else println("ケースクラス.equals インスタンスが不一致")
+
+  // 087 パッケージオブジェクト
+  // TODO: package.scalaに定義するのが慣習らしいがファイル名がエラーになる
+
+  // 088 列挙型
+  val name088 = Sex.Man.toString  // 名前取得
+  val id088 = Sex.Woman.id        // id取得
+  val sex088_1 = Sex.withName("Man")  // 名前から列挙取得
+  val sex088_2 = Sex(1)               // idから列挙取得
+  println("列挙子 %s, %d, %s, %s".format(name088, id088, sex088_1, sex088_2))
+  def printSex = Sex.values foreach println // 列挙型.values.foreach
+  printSex
+
+  // 089 ジェネリクス
+  // TODO: MapやListを渡す方法
+  val helloWorld089_1 = new HelloWorld089[BigInt]
+  helloWorld089_1.hello(1000000000)
+  val helloWorld089_2 = new HelloWorld089[String]
+  helloWorld089_2.hello(("Japanese" +"American"))
+
+
 }
 
 
@@ -129,3 +162,33 @@ object DBAccess084 {
   def apply(url: String, user: String, password: String): DBAccess084 = new DBAccess084(url, user, password)
 }
 
+// 085
+class Book private (val title: String, val author: String, val publisher: String, val price: Int)
+
+object Book {
+
+  // 引数にパラメータをとる
+  def apply(title: String, author: String, publisher: String , price: Int): Book = new Book(
+    title, author, publisher, price )
+
+  // 引数にオブジェクトをとる
+  def unapply(arg: Book): Option[(String, String, String, Int)] =
+    Some(arg.title, arg.author, arg.publisher, arg.price)
+
+}
+
+// 086 ケースクラスの定義
+case class Message086(id: Int, payload: String)
+
+// 088 Enum
+object Sex extends Enumeration {
+  type Sex = Value
+  val Man, Woman = Value
+}
+
+// 089 ジェネリクス総称型 パラメータ化された型の例
+class HelloWorld089[A] {
+  def hello[A](a: A): Unit = {
+    println("ジェネリクス総称型Hello" + a)
+  }
+}
