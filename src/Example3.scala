@@ -65,9 +65,14 @@ object Example3 extends App {
       case ByteMessage() => println(ByteMessage.getClass())
       case ObjectMessage() => println(ObjectMessage.getClass())
       case TextMessage() => println(TextMessage.getClass())
+      case _ => throw new IllegalStateException()
     }
   }
   println(message(new ObjectMessage()))
+
+  // オーバーライド
+  val o = new Sub2Class()
+  println(o.getKitchen("kitchenList"))
 }
 
 // アウタークラス
@@ -148,6 +153,20 @@ case class ByteMessage() extends SuperClass(0)
 
 class SubClass(i: Int, val h: Int, name: String) extends SuperClass(i) {
   def this(name: String) = this(1, 5, name)
+  val iname: String = "SubClass"
+  def getKitchen(value: String): List[String] = {
+    List(iname, "kyoto", "osaka", value)
+  }
+}
+
+/**
+  * オーバーライド
+  */
+class Sub2Class extends SubClass(1,1, "kumagai") {
+  override val iname = "Sub2Class"
+  override def getKitchen(value: String): List[String] = {
+    super.getKitchen("chiba") ::: List("hokaidou", iname)
+  }
 }
 
 abstract class AbstractClass {
