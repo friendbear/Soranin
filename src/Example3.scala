@@ -1,4 +1,6 @@
-import java.util.Calendar;
+import java.util.Calendar
+
+import scala.beans.BeanProperty;
 /**
   * オブジェクト指向
   * Created by kumagai on 2016/06/04.
@@ -53,13 +55,14 @@ object Example3 extends App {
 
   // 複数のコンストラクタ（補助コンストラクタ）
   val w1 = new World(5, 5, 5)
-  val w2 = new World(5)
+  var w2 = new World(5)
   println("1 Instance World get %d, %d, %d".format(w1.x, w1.y, w1.z))
-  // w2.z_ = 1 : TODO: Setter がvarで定義したパラメータで渡せない w2.y_=
+  //w2.z_= 1 // : TODO: Setter がvarで定義したパラメータで渡せない w2.y_=
   w2.z = 1
   println("2 Instance World get %d, %d, %d".format(w2.x, w2.y, w2.z))
 
   // シールドクラス、caseクラス
+  @unchecked
   def message(m: SuperClass) = {
     m match {
       case ByteMessage() => println(ByteMessage.getClass())
@@ -151,6 +154,7 @@ case class TextMessage() extends SuperClass(0)
 case class ObjectMessage() extends SuperClass(0)
 case class ByteMessage() extends SuperClass(0)
 
+@BeanProperty
 class SubClass(i: Int, val h: Int, name: String) extends SuperClass(i) {
   def this(name: String) = this(1, 5, name)
   val iname: String = "SubClass"
