@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Soranin.iml" filepath="$PROJECT_DIR$/Soranin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/soranin.iml" filepath="$PROJECT_DIR$/.idea/modules/soranin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/soranin-build.iml" filepath="$PROJECT_DIR$/.idea/modules/soranin-build.iml" />
     </modules>
   </component>
 </project>
