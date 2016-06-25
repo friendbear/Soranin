@@ -128,8 +128,9 @@ object Example4 extends App {
       |  <div>abc</div>
       |</body>
     """.stripMargin
-/* // TODO: scala.xmlパッケージが見つからない
-  val xml = scala.xml.XML.loadString(xmlString)
+ // TODO: scala.xmlパッケージが見つからない
+  /*
+  val xml = xml.loadString(xmlString)
   if (xml.isInstanceOf[scala.xml.Elem]) {
     xml.asInstanceOf[scala.xml.Elem]
   }
@@ -194,16 +195,16 @@ trait DefaultExecutor extends Executor {
   }
 }
 /*
-class OutputConsole(param: String) extends DefaultExecutor {
+case class OutputConsole(param: String) extends DefaultExecutor {
 
   // TODO: 以下のエラーが実行時に出て解決できない
   /**
     * Error:(60, 16) overriding method handle in trait DefaultExecutor of type ()Unit;
- method handle needs `abstract override' modifiers
-  override def handle() = println(param)
-               ^
+ method handle needs abstract override' modifiers
     */
-  override def handle() = println(param)
+  override def handle() = {
+    super.handle()
+  }
 }
 */
 

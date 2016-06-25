@@ -1,4 +1,3 @@
-import scala.util.logging._
 /**
   * 非推奨になった 2.11
   * Created by kumagai on 2016/06/17.

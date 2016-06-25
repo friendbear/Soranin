@@ -23,8 +23,8 @@ object MutableExample extends App {
   //インデックスを指定して要素を削除
   list137.remove(1)
   println(list137)
-  val list137Imutable = list137.toList
-  println(list137Imutable)
+  val list137mutable = list137.toList
+  println(list137mutable)
   //リストをクリアする
   //list137.clear()
   // set

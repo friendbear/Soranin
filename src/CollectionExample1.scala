@@ -107,6 +107,6 @@ object CollectionExample1 extends App {
   val list121 = list115.zip(list119)
   println(list121)
 }
-case class Cafe(val name: String, val rank) {
+case class Cafe(val name: String, val rank: Int) {
   //def apply(val name: String): Cafe = new Cafe(name)
 }
