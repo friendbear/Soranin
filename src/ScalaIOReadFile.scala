@@ -23,7 +23,7 @@ object ScalaIOReadFile extends App {
     })
   } catch {
     case e: FileNotFoundException => println(e.getMessage())
-    case _ => println("Error ")
+    case _: Throwable => println("Error ")
   } finally {
     source.close()
   }

@@ -10,3 +10,4 @@ libraryDependencies ++= Seq(
   )
 
 
+mainClass in (Compile,run) := Some("")
