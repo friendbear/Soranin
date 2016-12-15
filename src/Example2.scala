@@ -9,15 +9,15 @@ object Example2 extends App{
   println("関数の練習")
 
   val f1 = (x: Int, y: Int) => {
-    x + y
+    println(x + y)
   }
-  val f2 = (x: Int) => Math.PI * 2
+  val f2 = (x: Int) => Math.PI * x
 
   val f3 = (x: Int) =>  {
     Math.PI * x
   }
 
-  val f4 = () => println("f3 called")
+  val f4 = () => println("f4 called")
 
   println(f1(2,3))
   println(f2(2))
@@ -25,10 +25,10 @@ object Example2 extends App{
   println(f4())
 
   // 関数を引数に取る
-  def execute(f: () => Unit): Unit = {
-    f()
+  def execute(x: Int, y: Int, f: (Int, Int) => Unit): Unit = {
+    f(x, y)
   }
-  execute(f4)
+  execute(100, 2500, f1)
 
   // 関数を返す
   def double: (Float, Boolean) => Float = {
@@ -69,7 +69,7 @@ object Example2 extends App{
   // カリー化について 関数のチェーン
   val greetFunc = (title: String) => (name: String) => title + name
   println(greetFunc("Hello")("kumagai"))
-  def greetDef(title: String)(name: String): String = title + name
+  def greetDef(title: String)(name: String = "hogehoge"): String = title + name
   println(greetDef("Hello")("sorataka"))
 
   val nameFunc = greetFunc("Goodby")

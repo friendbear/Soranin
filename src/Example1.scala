@@ -69,17 +69,18 @@ object Example1 extends App{
     }
   }
 
-  def regexMatchSample(s: String): Unit = {
+  def regexMatchSample(s: String): String = {
     val pattern = """(\d{3})-(\d{4})""".r
 
-    s match {
+    val result = s match {
       case pattern(a, b) => {
-        println("caseRegex %d, %d".format(a.toInt, b.toInt))
+        "caseRegex %d, %d".format(a.toInt, b.toInt)
       }
-      case _ => println("caseRegex noMatch")
+      case _ => "caseRegex noMatch"
     }
+    result
   }
-  regexMatchSample("273-0021")
+  println(regexMatchSample("273-0021"))
 
   def listMatchSample(list: List[Option[String]]): Unit = {
     list match {
