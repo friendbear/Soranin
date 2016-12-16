@@ -10,18 +10,39 @@ abstract class Element {
   // パラメータ無しメソッドを使うべきとされている
   /*
   副作用を持つ関数を呼び出すときには、忘れずにからかっっこをつけるようにする。
-  この習慣は呼び出そうとしている関数が捜査を実行するならカッコを使い
+  この習慣は呼び出そうとしている関数が操作を実行するならカッコを使い
   プロパティへのアクセスを提供するだけならカッコを省略すると覚えておく。
    */
   def contents: Array[String]
   def height: Int = contents.length
   def width: Int = if (height == 0) 0 else contents(0).length
 
+  def above(that: Element): Element = {
+    new ArrayElement(this.contents ++ that.contents)
+  }
+  // beside改良 配列からペアを作成、配列を作ってyieldでArrayに詰め直す
+  def beside(that: Element): Element = {
+    new ArrayElement(
+      for (
+        (line1, line2) <- this.contents zip that.contents
+      ) yield line1 + line2
+    )
+  }
+  // mkString
+  override def toString: String = contents mkString "\n"
+
 }
 
 class ArrayElement(conts: Array[String]) extends Element{
   // パラメータ無しメソッドをフィールドでオーバーライドする
   def contents: Array[String]  = conts
+  def besideZ(that: Element): Element = {
+    val contents = new Array[String](this.contents.length)
+    for (i <- 0 until this.contents.length)
+      contents(i) = this.contents(i) + that.contents(i)
+    new ArrayElement(contents)
+  }
+
 }
 
 // パラメータフィールドとしてcontentsを定義する（パラメータとフィールドを結合）
@@ -29,9 +50,15 @@ class ArrayElement2(val contents: Array[String]) extends Element
 
 // スーパークラスコンストラクターの呼び出し
 class LineElement(s: String) extends ArrayElement(Array(s))
-class LineElement2(s: String) extends ArrayElement(Array(s)) {
+class LineElement2(s: String) extends Element {
+  val contents = Array(s)
   override def width: Int = s.length
   override def height: Int = 1
+}
+
+class UniformElement(ch: Char, override val width: Int, override val height: Int) extends Element {
+  private val line = ch.toString * width
+  def contents = Array.fill(height)(line)
 }
 
 object ElementApp extends App {
