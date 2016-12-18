@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="34e51cc7-6625-4940-b3cc-c787353ad60a" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cop13/pkgs/Packages.scala" afterPath="$PROJECT_DIR$/src/cop13/pkgs/Packages.scala" />
     </list>
     <ignored path="Soranin.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -39,22 +38,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Example4.scala" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Example4.scala">
+      <file leaf-file-name="Packages.scala" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/cop13/pkgs/Packages.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18">
-              <caret line="251" column="32" lean-forward="false" selection-start-line="251" selection-start-column="32" selection-end-line="251" selection-end-column="32" />
+            <state relative-caret-position="435">
+              <caret line="29" column="0" lean-forward="true" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Packages.scala" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/cop13/pkgs/Packages.scala">
+      <file leaf-file-name="ImportSample.scala" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/cop13/pkgs/ImportSample.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="540">
+              <caret line="36" column="0" lean-forward="true" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+              <folding>
+                <element signature="e#329#352#0" expanded="true" />
+                <element signature="e#603#632#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -267,6 +269,7 @@
         <option value="$PROJECT_DIR$/src/cop08/clojer.scala" />
         <option value="$PROJECT_DIR$/src/cop08/Clojer.scala" />
         <option value="$PROJECT_DIR$/src/cop13/pkgs/Packages.scala" />
+        <option value="$PROJECT_DIR$/src/cop13/pkgs/ImportSample.scala" />
       </list>
     </option>
   </component>
@@ -925,7 +928,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24469274" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960895" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28938547" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28938547" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1921944" sideWeight="0.61538464" order="0" side_tool="false" content_ui="combo" />
@@ -966,13 +969,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Example2.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_60.jdk/Contents/Home/src.zip!/java/lang/Math.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1440">
@@ -1337,9 +1333,20 @@
     <entry file="file://$PROJECT_DIR$/src/cop08/Clojer.scala" />
     <entry file="file://$PROJECT_DIR$/src/cop13/pkgs/Packages.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+        <state relative-caret-position="435">
+          <caret line="29" column="0" lean-forward="true" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cop13/pkgs/ImportSample.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="36" column="0" lean-forward="true" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+          <folding>
+            <element signature="e#329#352#0" expanded="true" />
+            <element signature="e#603#632#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
