@@ -1,7 +1,6 @@
-package test
+package test.scala
 
 import org.scalatest.FunSuite
-
 /**
   * Created by kumagai on 2016/12/19.
   */
@@ -15,9 +14,4 @@ class SetSuite extends FunSuite {
     assert(Set.empty.size == 0)
   }
 
-  test("Invoking head on an empty Set should produce NoSuchElementException") {
-    assertThrows[NoSuchElementException] {
-      Set.empty.head
-    }
-  }
 }
