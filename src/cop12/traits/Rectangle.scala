@@ -43,6 +43,6 @@ object traitApp extends App {
   val rect = new Rectangle(new Point(1, 1), new Point(10, 10))
   printf(f"${rect.left}, ${rect.right}, ${rect.width}")
 
-  // Orderdトレイトは == equalsメソッドは自分で定義する必要がある
+  // TODO:Orderdトレイトは == equalsメソッドは自分で定義する必要がある
   if (new RationalWithTrait(1, 2) == new RationalWithTrait(1, 2)) printf(" 一致する") else printf(" 一致しない")
 }
