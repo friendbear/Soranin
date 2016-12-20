@@ -18,7 +18,6 @@ abstract class Element {
   def contents: Array[String]
   def height: Int = contents.length
   def width: Int = if (height == 0) 0 else contents(0).length
-
   def above(that: Element): Element = {
     elem(this.contents ++ that.contents)
   }
@@ -32,7 +31,6 @@ abstract class Element {
   }
   // mkString
   override def toString: String = contents mkString "\n"
-
 }
 
 // ファクトリオブジェクトを定義
@@ -45,7 +43,6 @@ object Element {
     new LineElement(line)
 
   /* ファクトリメソッド導入によりシングルトンオブジェクトにサブクラス群を隠蔽
-
    */
   private class ArrayElement(conts: Array[String]) extends Element{
     // パラメータ無しメソッドをフィールドでオーバーライドする

@@ -3,7 +3,7 @@ package cop08
 /**
   * Created by kumagai on 2016/12/15.
   */
-object Clojer extends App {
+object Cloger extends App {
 
   var more = 1000
 
