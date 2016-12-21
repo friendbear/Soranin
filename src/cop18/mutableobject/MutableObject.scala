@@ -29,3 +29,15 @@ object BankAccountApp extends App {
   account withdraw 90000 ensuring(_ == false, "引き出し失敗")
   account withdraw 30000 ensuring(_ == false, "引き出し失敗")
 }
+
+class Keyed {
+  def computeKey: Int = 10
+}
+class MemoKeyed extends Keyed {
+  var keyCache: Option[Int] = None
+
+  override def computeKey: Int = {
+    if (!keyCache.isDefined) keyCache = Some(super.computeKey)
+    keyCache get
+  }
+}
