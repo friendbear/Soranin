@@ -1,5 +1,7 @@
 package cop18.mutableobject
 
+import com.sun.crypto.provider.AESCipher.AES128_CBC_NoPadding
+
 /**
   * Created by kumagai on 2016/12/22.
   */
@@ -39,5 +41,36 @@ class MemoKeyed extends Keyed {
   override def computeKey: Int = {
     if (!keyCache.isDefined) keyCache = Some(super.computeKey)
     keyCache get
+  }
+}
+
+class Time {
+  var hour = 12
+  var minute = 0
+}
+// 上の実装は以下の実装と同じ
+class TimeDef {
+  private[this] var h = 12
+  private[this] var m = 0
+  def hour: Int = h
+  def hour_ = (x: Int) => {
+    require(0 <= x && x < 24)
+    h = x
+  }
+  def minite: Int = m
+  def minite_ =(x: Int) => {
+    require(0 <= x && x < 60)
+    m = x
+  }
+}
+
+/** 摂氏と華氏 を表すクラス
+  *
+  */
+class Thermometer {
+  var celsius: Float = _
+  def fahrenheit = celsius * 9/5 + 32
+  def fahrenheit_ =(f: Float) => {
+    celsius = (f - 32) * 5/9
   }
 }
