@@ -5,7 +5,7 @@ package cop19_type_parameterization
   */
 package LowerBoundsQueue {
 
-/** 加減限界が設定された型パラメータ
+/** 下限限界が設定された型パラメータ
   *
   * @param leading
   * @param trailing
