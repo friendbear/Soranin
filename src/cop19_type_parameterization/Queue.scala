@@ -4,13 +4,24 @@ package cop19_type_parameterization
   * Created by kumagai on 2016/12/22.
   */
 
+/** コンパニオンオブジェクトのapplyメソッド
+  *
+  */
+object Queue {
+  // 初期要素 xsを使って待ち行列を構築する
+  def apply[T](xs: T*) = new Queue[T](xs.toList, Nil)
+}
 /** 処理効率の良いQueue
   *
   * @param leading
   * @param trailing
   * @tparam T
   */
-class Queue[T](private val leading: List[T], private val trailing: List[T]) {
+class Queue[T] private(private val leading: List[T], private val trailing: List[T]) {
+
+  // 基本コンストラクタ隠蔽化で補助コンストラクタを定義
+  def this() = this(Nil, Nil)
+  def this(elems: T*) = this(elems.toList, Nil)
 
   private def mirror = {
     if (leading.isEmpty)
