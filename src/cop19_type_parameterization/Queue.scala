@@ -17,11 +17,11 @@ object Queue {
   * @param trailing
   * @tparam T
   */
-class Queue[T] private(private val leading: List[T], private val trailing: List[T]) {
+class Queue[T] (private val leading: List[T], private val trailing: List[T]) {
 
   // 基本コンストラクタ隠蔽化で補助コンストラクタを定義
-  def this() = this(Nil, Nil)
-  def this(elems: T*) = this(elems.toList, Nil)
+//  def this() = this(Nil, Nil)
+//  def this(elems: T*) = this(elems.toList, Nil)
 
   private def mirror = {
     if (leading.isEmpty)
