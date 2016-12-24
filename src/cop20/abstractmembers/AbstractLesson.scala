@@ -52,11 +52,33 @@ trait RationalTrait {
   override def toString: String = numer + "/" + denom
 }
 object RationalTraitLessonApp extends App{
-
+/*
   // java.lang.IllegalArgumentException: requirement failed が発生する
   new RationalTrait {
     override val denomArg: Int = 1
     override val numerArg: Int = 2
   } //.toString
   // 上記の対処方法として、事前初期化済みフィールドと遅延評価(lazy)val の２つがある
+  */
+  /*
+  事前定義済みフィールド
+   */
+  new { // 無名クラス
+    val numerArg = 2
+    val denomArg = 3
+  } with RationalTrait = 1/2
+  object twoThirds extends { // オブジェクト定義に含まれている事前初期化済みフィールド
+    val numerArg = 2
+    val denomArg = 3
+  } with RationalTrait
+
+  class RationalClass(n: Int, d: Int) extends {
+    val numerArg = 2
+    val denomArg = 3
+  } with RationalTrait {
+    def + (that: RationalClass) = new RationalClass(
+      numer + that.denom + that.numer * denom,
+      denom * that.denom
+    )
+  }
 }
