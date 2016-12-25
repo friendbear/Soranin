@@ -18,7 +18,7 @@ object AbstractTypeLesson extends App{
   /** パス依存型 bessy.SuitableFoodのような型はパス依存型と呼ばれる。
     *
     */
-  bessy.eat (new bessy.SuitableFood)
+// TODO: ERRORが出る  bessy.eat (new bessy.SuitableFood)
 
   val outer = new Outer
   val inner = new outer.Inner // パス依存型
@@ -66,5 +66,11 @@ class Cow extends Animal {
   override def eat(food: Grass) ={}
 }
 class Fish extends Food
+class DogFood extends Food
+class Dog extends Animal {
+  type SuitableFood = DogFood
 
+  // Food という上限限界を持つ
+  override def eat(food: DogFood) = {}
+}
 
