@@ -142,6 +142,84 @@ class ImplicitConversionLesson4 {
   }
   val lesson4: Rectangle = 4 x 3  // <== Intに xメソッドなし-> implicit class RectangleMakerを見つける、x関数を見つける、実行される。
 }
-object ImplicitConversionLesson extends App {
+
+/** 暗黙のパラメータ
+  *
+  */
+object ImplicitConversionLesson5 {
+  class PreferredPrompt(val preference: String)
+  class PreferredDrink(val preference: String)
+  object Greeter {
+    // １つのパラメーターを持つ暗黙のパラメーターリスト
+    def greet(name: String)(implicit preferredPrompt: PreferredPrompt) =  {
+      println("Welcome, " + name + ".The system is ready.")
+      println(preferredPrompt.preference)
+    }
+
+    // 複数のパラメーターを持つ暗黙のパラメーターリスト
+    def greet2(name: String)(implicit prompt: PreferredPrompt, drink: PreferredDrink) = {
+      println(f"Welcome, ${name} The system is ready.")
+      println("But while you work, ")
+      println(f"why not enjoy a cup of ${drink.preference} ?")
+      println(prompt.preference)
+    }
+  }
+  object JoesPrefs {
+    implicit val prompt = new PreferredPrompt("Yes, master> ")
+  }
+  object TomoPrefs {
+    implicit val prompt = new PreferredPrompt("Yes, master> ")
+    implicit val drink = new PreferredDrink("coffe")
+  }
+
+  // 上限限界を使っている関数
+  def maxListOrdering[T](elements: List[T])(ordering: Ordering[T]): T = {
+    elements match {
+      case List() => throw new IllegalArgumentException("empty list!")
+      case List(x) => x
+      case x :: rest =>
+        val maxRest = maxListOrdering(rest)(ordering)
+        // リストのヘッドがリストのテールの最大値よりも大きいかチェックするif式
+        if (ordering.gt(x, maxRest)) x else maxRest
+    }
+  }
+  // 上記をもっと使いやすくするために第２引数を暗黙の引数にする
+  def maxListImpParam[T](elements: List[T])(implicit ordering: Ordering[T]): T ={
+    elements match {
+      case List() => throw new IllegalArgumentException("empty list!")
+      case List(x) => x
+      case x :: rest =>
+        val maxRest = maxListImpParam(rest)(ordering)
+        // リストのヘッドがリストのテールの最大値よりも大きいかチェックするif式
+        if (ordering.gt(x, maxRest)) x else maxRest
+    }
+  }
+
+  /* 暗黙のパラメーターのためのスタイルの原則
+   * 暗黙のパラメータの方に対しては独自の名前を使うのが望ましい。
+   * 例えば先のサンプルのpromptやdrinkの方はStringではなくPreferredPromptやPreferredDrinkである
+   * スタイルの原則として、暗黙のパラメーターの型名では少なくとも１つの役割を明確にする名前を使わなければならない
+   */
+
+}
+object ImplicitConversionLessonApp extends App {
+
+  // 暗黙のパラメータを定義していない場合
+  val bobsPrompt = new ImplicitConversionLesson5.PreferredPrompt("relax> ")
+  ImplicitConversionLesson5.Greeter.greet("Bob")(bobsPrompt)
+  // 暗黙のパラメータを定義した場合
+  import ImplicitConversionLesson5.JoesPrefs._
+  ImplicitConversionLesson5.Greeter.greet("Joe")
+
+}
+object ImplicitConversionLesson5App extends App {
+  // 暗黙のパラメータ(implicit prompt: PreferredPrompt, drink: PreferredDrink) に対して
+  import ImplicitConversionLesson5.TomoPrefs._
+  ImplicitConversionLesson5.Greeter.greet2("Tomo")
+
+  // Scala標準ライブラリでは様々な共通型向けに暗黙のorderingメソッドを提供してくれる
+  ImplicitConversionLesson5.maxListImpParam(List(1, 5, 10, 3)) // コンパイラーはIntのためのordering関数を挿入している
+  ImplicitConversionLesson5.maxListImpParam(List(1.5, 5.2, 10.7, 3.14159)) // コンパイラーはDoubleのためのordering関数を挿入している
+  ImplicitConversionLesson5.maxListImpParam(List("one", "two", "three")) // コンパイラーはStringのためのordering関数を挿入している
 
 }
