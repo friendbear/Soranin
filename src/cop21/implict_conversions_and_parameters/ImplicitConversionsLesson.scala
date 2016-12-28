@@ -85,6 +85,18 @@ class ImplicitConversionLesson2 {
   implicit def intToString(x: Int) = x.toString
 
 }
-object ImplicitConversionLesson1 extends App {
+
+/** 要求された型への暗黙の型変換
+  *
+  */
+class ImplicitConversionLesson3{
+  implicit def doubleToInt(v: Double) = v.toInt
+  val i: Int = 3.5 // <== 上の暗黙の型変換がなければコンパイルエラー
+
+  // Predefでは小さな整数型から大きな整数型への暗黙の型変換を定義している。
+  // implicit def int2double(x: Int): Double = x.toDouble
+}
+
+object ImplicitConversionLesson extends App {
 
 }
