@@ -97,6 +97,51 @@ class ImplicitConversionLesson3{
   // implicit def int2double(x: Int): Double = x.toDouble
 }
 
+/** レシーバーの変換
+  * 暗黙の型変換は、メソッド呼び出しのレシーバー、すなわちメソッド呼び出しで使われるオブジェクトにも
+  * 適用される。
+  * ２つの用途があり、既存のクラス階層に新しいクラスを円滑に組み込むこと、円滑に組み込むこと
+  * そしてScala言語の枠内でドメイン固有言語（DSL）を書くためのサポートである。
+  */
+class ImplicitConversionLesson4 {
+  /*
+  　新しい型の同時使用
+   */
+  class Rational(n: Int, d: Int){
+    implicit def intToRational(x: Int) = new Rational(x, 1)
+  }
+  /*
+  scala> 1 + oneHalf -> intToRational(1) + oneHalf = Int + Rational -> intToRational(Int) + Rational
+   */
+  /*
+    新しい構文のシミュレーション
+    Map(1 -> "one") の -> はscala.Predefの中で定義されているArrowAssocクラスのメソッド
+    構文拡張的な機能を提供するライブラリーでは、この「リッチラッパー」パターンがよく見られる。
+    そういったものを見たら、すぐにこのパターンだと気付けるようにしたいところだ。
+    レシーバークラスにはなさそうなメソッドを呼び出しているコードがあれば、おそらく暗黙の型変換を使っているのである。
+    RichInt、RichBooleanなどRichSomethingという名前のクラスを見かけたら、そのクラスは、構文的にSomething型に見えるメソッドを
+    追加していると考えて良い
+   */
+
+  /** 暗黙のクラス
+    * リッチラッパークラスを描きやすくするために、暗黙のクラスが追加された。
+    * 暗黙のクラスとは、implicitキーワードが先頭につけられたクラスのことである。
+    * リッチラッパーパターンのクラスを使おうと思っているときに必要なのはまさにこの変換だ。
+    *
+    * implict class はケースクラスになれないし、コンストラクターは１個の引数を取るものでなければならない
+    *
+    */
+  case class Rectangle(width: Int, height: Int)
+  // リッチラッパークラス
+  implicit class RectangleMaker(width: Int) {
+    def x(height: Int) = Rectangle(width, height)
+
+    //次のような変換コードも自動生成される
+    //implicit def RectangleMaker(width: Int) =
+    //  new RectangleMaker(width)
+  }
+  val lesson4: Rectangle = 4 x 3  // <== Intに xメソッドなし-> implicit class RectangleMakerを見つける、x関数を見つける、実行される。
+}
 object ImplicitConversionLesson extends App {
 
 }
