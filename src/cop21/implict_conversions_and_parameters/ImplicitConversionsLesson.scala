@@ -202,6 +202,36 @@ object ImplicitConversionLesson5 {
    */
 
 }
+
+/** コンテキスト境界
+  *
+  */
+class ImplicitConversionLesson6 {
+
+  /** コンテキスト境界
+    * [T: Ordering]という構文がコンテキスト境界であり、２つの効果がある。
+    * 第１に、型パラメーターTを普通に導入する。
+    * 第２に、Ordering[T]型の暗黙のパラメータを追加する。
+    * 直感的には、コンテキスト境界は、型パラメーターについて何かを言おうとしているのだと考えることができる。
+    * [T <: Ordered[T]] と書くときにはT はOrdered[T]だと言おうとしている。
+    * それに対し、[T: Ordering]と書くときには、Tとは何かについてそこまで言おうとしているわけではない。
+    * Tにはなんらかの形の順序付け(ordering)があるといっている。つまり、コンテキスト境界は、かなり柔軟なのである。
+    * コンテキスト境界を使えば、方の定義を変えることなく順序付け（または型のたのプロパティ）を要求することができる。
+    * @param elements
+    * @tparam T
+    * @return
+    */
+  def maxList[T: Ordering](elements: List[T]): T ={
+    elements match {
+      case List() => throw new IllegalArgumentException("empty list!")
+      case List(x) => x
+      case x :: rest =>
+        val maxRest = maxList(rest)
+        // リストのヘッドがリストのテールの最大値よりも大きいかチェックするif式
+        if (implicitly[Ordering[T]].gt(x, maxRest)) x else maxRest
+    }
+  }
+}
 object ImplicitConversionLessonApp extends App {
 
   // 暗黙のパラメータを定義していない場合
