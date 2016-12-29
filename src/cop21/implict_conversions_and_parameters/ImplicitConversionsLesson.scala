@@ -85,6 +85,189 @@ class ImplicitConversionLesson2 {
   implicit def intToString(x: Int) = x.toString
 
 }
-object ImplicitConversionLesson1 extends App {
+
+/** 要求された型への暗黙の型変換
+  *
+  */
+class ImplicitConversionLesson3{
+  implicit def doubleToInt(v: Double) = v.toInt
+  val i: Int = 3.5 // <== 上の暗黙の型変換がなければコンパイルエラー
+
+  // Predefでは小さな整数型から大きな整数型への暗黙の型変換を定義している。
+  // implicit def int2double(x: Int): Double = x.toDouble
+}
+
+/** レシーバーの変換
+  * 暗黙の型変換は、メソッド呼び出しのレシーバー、すなわちメソッド呼び出しで使われるオブジェクトにも
+  * 適用される。
+  * ２つの用途があり、既存のクラス階層に新しいクラスを円滑に組み込むこと、円滑に組み込むこと
+  * そしてScala言語の枠内でドメイン固有言語（DSL）を書くためのサポートである。
+  */
+class ImplicitConversionLesson4 {
+  /*
+  　新しい型の同時使用
+   */
+  class Rational(n: Int, d: Int){
+    implicit def intToRational(x: Int) = new Rational(x, 1)
+  }
+  /*
+  scala> 1 + oneHalf -> intToRational(1) + oneHalf = Int + Rational -> intToRational(Int) + Rational
+   */
+  /*
+    新しい構文のシミュレーション
+    Map(1 -> "one") の -> はscala.Predefの中で定義されているArrowAssocクラスのメソッド
+    構文拡張的な機能を提供するライブラリーでは、この「リッチラッパー」パターンがよく見られる。
+    そういったものを見たら、すぐにこのパターンだと気付けるようにしたいところだ。
+    レシーバークラスにはなさそうなメソッドを呼び出しているコードがあれば、おそらく暗黙の型変換を使っているのである。
+    RichInt、RichBooleanなどRichSomethingという名前のクラスを見かけたら、そのクラスは、構文的にSomething型に見えるメソッドを
+    追加していると考えて良い
+   */
+
+  /** 暗黙のクラス
+    * リッチラッパークラスを描きやすくするために、暗黙のクラスが追加された。
+    * 暗黙のクラスとは、implicitキーワードが先頭につけられたクラスのことである。
+    * リッチラッパーパターンのクラスを使おうと思っているときに必要なのはまさにこの変換だ。
+    *
+    * implict class はケースクラスになれないし、コンストラクターは１個の引数を取るものでなければならない
+    *
+    */
+  case class Rectangle(width: Int, height: Int)
+  // リッチラッパークラス
+  implicit class RectangleMaker(width: Int) {
+    def x(height: Int) = Rectangle(width, height)
+
+    //次のような変換コードも自動生成される
+    //implicit def RectangleMaker(width: Int) =
+    //  new RectangleMaker(width)
+  }
+  val lesson4: Rectangle = 4 x 3  // <== Intに xメソッドなし-> implicit class RectangleMakerを見つける、x関数を見つける、実行される。
+}
+
+/** 暗黙のパラメータ
+  *
+  */
+object ImplicitConversionLesson5 {
+  class PreferredPrompt(val preference: String)
+  class PreferredDrink(val preference: String)
+  object Greeter {
+    // １つのパラメーターを持つ暗黙のパラメーターリスト
+    def greet(name: String)(implicit preferredPrompt: PreferredPrompt) =  {
+      println("Welcome, " + name + ".The system is ready.")
+      println(preferredPrompt.preference)
+    }
+
+    // 複数のパラメーターを持つ暗黙のパラメーターリスト
+    def greet2(name: String)(implicit prompt: PreferredPrompt, drink: PreferredDrink) = {
+      println(f"Welcome, ${name} The system is ready.")
+      println("But while you work, ")
+      println(f"why not enjoy a cup of ${drink.preference} ?")
+      println(prompt.preference)
+    }
+  }
+  object JoesPrefs {
+    implicit val prompt = new PreferredPrompt("Yes, master> ")
+  }
+  object TomoPrefs {
+    implicit val prompt = new PreferredPrompt("Yes, master> ")
+    implicit val drink = new PreferredDrink("coffe")
+  }
+
+  // 上限限界を使っている関数
+  def maxListOrdering[T](elements: List[T])(ordering: Ordering[T]): T = {
+    elements match {
+      case List() => throw new IllegalArgumentException("empty list!")
+      case List(x) => x
+      case x :: rest =>
+        val maxRest = maxListOrdering(rest)(ordering)
+        // リストのヘッドがリストのテールの最大値よりも大きいかチェックするif式
+        if (ordering.gt(x, maxRest)) x else maxRest
+    }
+  }
+  // 上記をもっと使いやすくするために第２引数を暗黙の引数にする
+  def maxListImpParam[T](elements: List[T])(implicit ordering: Ordering[T]): T ={
+    elements match {
+      case List() => throw new IllegalArgumentException("empty list!")
+      case List(x) => x
+      case x :: rest =>
+        val maxRest = maxListImpParam(rest)(ordering)
+        // リストのヘッドがリストのテールの最大値よりも大きいかチェックするif式
+        if (ordering.gt(x, maxRest)) x else maxRest
+    }
+  }
+
+  /* 暗黙のパラメーターのためのスタイルの原則
+   * 暗黙のパラメータの方に対しては独自の名前を使うのが望ましい。
+   * 例えば先のサンプルのpromptやdrinkの方はStringではなくPreferredPromptやPreferredDrinkである
+   * スタイルの原則として、暗黙のパラメーターの型名では少なくとも１つの役割を明確にする名前を使わなければならない
+   */
+
+}
+
+/** コンテキスト境界
+  *
+  */
+class ImplicitConversionLesson6 {
+
+  /** コンテキスト境界
+    * [T: Ordering]という構文がコンテキスト境界であり、２つの効果がある。
+    * 第１に、型パラメーターTを普通に導入する。
+    * 第２に、Ordering[T]型の暗黙のパラメータを追加する。
+    * 直感的には、コンテキスト境界は、型パラメーターについて何かを言おうとしているのだと考えることができる。
+    * [T <: Ordered[T]] と書くときにはT はOrdered[T]だと言おうとしている。
+    * それに対し、[T: Ordering]と書くときには、Tとは何かについてそこまで言おうとしているわけではない。
+    * Tにはなんらかの形の順序付け(ordering)があるといっている。つまり、コンテキスト境界は、かなり柔軟なのである。
+    * コンテキスト境界を使えば、方の定義を変えることなく順序付け（または型のたのプロパティ）を要求することができる。
+    * @param elements
+    * @tparam T
+    * @return
+    */
+  def maxList[T: Ordering](elements: List[T]): T ={
+    elements match {
+      case List() => throw new IllegalArgumentException("empty list!")
+      case List(x) => x
+      case x :: rest =>
+        val maxRest = maxList(rest)
+        // リストのヘッドがリストのテールの最大値よりも大きいかチェックするif式
+        if (implicitly[Ordering[T]].gt(x, maxRest)) x else maxRest
+    }
+  }
+}
+
+/** 暗黙の型変換のデバック
+  * コンパイラに対して -Xprint:typer オプションを指定すると挿入されたものがわかる
+  */
+object Mocha extends App {
+  class PreferredDrink(val preference: String)
+  implicit val pref = new PreferredDrink("mocha")
+  def enjoy(name: String)(implicit drink: PreferredDrink) = {
+    print(
+      s"""
+        |Welcome, ${name}
+        |Enjoy a
+        |${drink.preference}
+        |!
+      """.stripMargin)
+  }
+  enjoy("reader")
+}
+object ImplicitConversionLessonApp extends App {
+
+  // 暗黙のパラメータを定義していない場合
+  val bobsPrompt = new ImplicitConversionLesson5.PreferredPrompt("relax> ")
+  ImplicitConversionLesson5.Greeter.greet("Bob")(bobsPrompt)
+  // 暗黙のパラメータを定義した場合
+  import ImplicitConversionLesson5.JoesPrefs._
+  ImplicitConversionLesson5.Greeter.greet("Joe")
+
+}
+object ImplicitConversionLesson5App extends App {
+  // 暗黙のパラメータ(implicit prompt: PreferredPrompt, drink: PreferredDrink) に対して
+  import ImplicitConversionLesson5.TomoPrefs._
+  ImplicitConversionLesson5.Greeter.greet2("Tomo")
+
+  // Scala標準ライブラリでは様々な共通型向けに暗黙のorderingメソッドを提供してくれる
+  ImplicitConversionLesson5.maxListImpParam(List(1, 5, 10, 3)) // コンパイラーはIntのためのordering関数を挿入している
+  ImplicitConversionLesson5.maxListImpParam(List(1.5, 5.2, 10.7, 3.14159)) // コンパイラーはDoubleのためのordering関数を挿入している
+  ImplicitConversionLesson5.maxListImpParam(List("one", "two", "three")) // コンパイラーはStringのためのordering関数を挿入している
 
 }
