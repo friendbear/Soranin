@@ -232,6 +232,24 @@ class ImplicitConversionLesson6 {
     }
   }
 }
+
+/** 暗黙の型変換のデバック
+  * コンパイラに対して -Xprint:typer オプションを指定すると挿入されたものがわかる
+  */
+object Mocha extends App {
+  class PreferredDrink(val preference: String)
+  implicit val pref = new PreferredDrink("mocha")
+  def enjoy(name: String)(implicit drink: PreferredDrink) = {
+    print(
+      s"""
+        |Welcome, ${name}
+        |Enjoy a
+        |${drink.preference}
+        |!
+      """.stripMargin)
+  }
+  enjoy("reader")
+}
 object ImplicitConversionLessonApp extends App {
 
   // 暗黙のパラメータを定義していない場合
