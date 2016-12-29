@@ -78,7 +78,7 @@ package case2 {
     // ドルの桁
     val Dollar = make(100)
     // 表記の桁
-    val CurrencyUnit: AbstractCurrency = Dollar
+    val CurrencyUnit = Dollar
   }
 
   /** EU の通貨圏

@@ -13,7 +13,7 @@ package cop20.abstractmembers
   *
   */
 package case1 {
-  class CurrencyA {
+  abstract class CurrencyA {
     val amount: Long
     def designation: String
 
