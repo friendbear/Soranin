@@ -117,3 +117,17 @@ object ListLesson2 extends App{
       sum += x))
 
 }
+
+/** 5. 逆方向への変換
+  * for式がmap, flatMap, withFilterの３つの高階関数呼び出しに変換できることを示した
+  * 実は逆方向への変換も同じように可能である
+  * map, flatMap, withFilter呼び出しはfor式に書き直せる
+  */
+object ListLesson5 extends App {
+  def map[A, B](xs: List[A], f: A => B): List[B] =
+    for (x <- xs) yield f(x)
+  def flatMap[A, B](xs: List[A], f: A => List[B]): List[B] =
+    for (x <- xs; y <- f(x)) yield y
+  def filter[A](xs: List[A], p: A => Boolean): List[A] =
+    for (x <- xs if p(x)) yield x
+}
