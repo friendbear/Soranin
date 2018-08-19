@@ -6,3 +6,5 @@ scalaトレーニング
 
 ## Scalaスケーラブルプログラミング 第３版
 [https://www.amazon.co.jp/gp/product/4844381490/](https://www.amazon.co.jp/gp/product/4844381490/)
+
+@
